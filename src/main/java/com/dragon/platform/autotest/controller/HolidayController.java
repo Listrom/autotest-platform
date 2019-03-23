@@ -95,4 +95,15 @@ public class HolidayController {
     public Callable<GenericResponse<List<String>>> findNearFutureHoliday(){
         return () -> GenericResponse.success(holidayInfoRepository.findNearFutureHoliday());
     }
+
+
+
+    /**
+     * 查询最近的10个节假日
+     * @return 节假日列表
+     */
+    @GetMapping("/open/near/test")
+    public Callable<GenericResponse<List<String>>> findTest(){
+        return () -> GenericResponse.success(holidayInfoRepository.findNearFutureHoliday());
+    }
 }
