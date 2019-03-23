@@ -70,7 +70,16 @@ public class HolidayController {
     public Callable<GenericResponse<Map>> findHolidayByDate(@RequestParam("beginDate") Long begin, @RequestParam("endDate") Long end){
         Date beginDate = getDate(begin);
         Date endDate = getDate(end);
+
         return () -> GenericResponse.success(holidayInfoRepository.findHolidayByDate(beginDate, endDate));
+    }
+
+
+
+    public Map findHolidayByDate1(Long begin, Long end){
+        Date beginDate = getDate(begin);
+        Date endDate = getDate(end);
+        return holidayInfoRepository.findHolidayByDate(beginDate, endDate);
     }
 
     /**
