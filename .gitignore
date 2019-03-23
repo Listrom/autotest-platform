@@ -28,6 +28,9 @@ HELP.md
 ### VS Code ###
 .vscode/
 
+### password ###
+**/*dbinfo.yml
+
 ### build folder ###
 bin/
 build/
