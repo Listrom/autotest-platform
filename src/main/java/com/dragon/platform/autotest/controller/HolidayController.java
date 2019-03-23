@@ -70,7 +70,16 @@ public class HolidayController {
     public Callable<GenericResponse<Map>> findHolidayByDate(@RequestParam("beginDate") Long begin, @RequestParam("endDate") Long end){
         Date beginDate = getDate(begin);
         Date endDate = getDate(end);
+
         return () -> GenericResponse.success(holidayInfoRepository.findHolidayByDate(beginDate, endDate));
+    }
+
+
+
+    public Map findHolidayByDate1(Long begin, Long end){
+        Date beginDate = getDate(begin);
+        Date endDate = getDate(end);
+        return holidayInfoRepository.findHolidayByDate(beginDate, endDate);
     }
 
     /**
@@ -93,6 +102,17 @@ public class HolidayController {
      */
     @GetMapping("/open/near/future/holiday")
     public Callable<GenericResponse<List<String>>> findNearFutureHoliday(){
+        return () -> GenericResponse.success(holidayInfoRepository.findNearFutureHoliday());
+    }
+
+
+
+    /**
+     * 查询最近的10个节假日
+     * @return 节假日列表
+     */
+    @GetMapping("/open/near/test")
+    public Callable<GenericResponse<List<String>>> findTest(){
         return () -> GenericResponse.success(holidayInfoRepository.findNearFutureHoliday());
     }
 }
