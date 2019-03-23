@@ -3,5 +3,5 @@ spring:
   profiles: dev
   datasource:
       url: jdbc:mysql://platform.dragon-autotest.com:3306/autotest_case
-      username: *
-      password: *
+      username: BT0zB41r2Ra0
+      password: U3lpp9RsxTjw
