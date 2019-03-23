@@ -8,9 +8,10 @@
  */
 package com.dragon.platform.autotest.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.dragon.platform.autotest.entity.CaseInfo;
+import com.dragon.platform.common.response.GenericResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Callable;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.Callable;
  * @date: 2019/3/23 13:12
  * @version: V1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/testCases")
 public class TestCaseController {
@@ -29,4 +31,21 @@ public class TestCaseController {
     public Callable<Object> list(String arg) {
         return () -> arg;
     }
+
+
+    /** rest风格 **/
+    @GetMapping("/rest/{type}")
+    public Callable<GenericResponse<Object>> rest(@PathVariable("type") String type) {
+        return () -> GenericResponse.success("你选择的类型是："+type);
+    }
+
+    /** 方法描述 **/
+    @PostMapping("/rest/body")
+    public Callable<GenericResponse<CaseInfo>> restBody(@RequestBody CaseInfo caseInfo) {
+        return () -> {
+            log.info(caseInfo.toString());
+            return GenericResponse.success(caseInfo);
+        };
+    }
+
 }
