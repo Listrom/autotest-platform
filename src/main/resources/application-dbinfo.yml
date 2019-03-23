@@ -1,0 +1,7 @@
+#开发环境
+spring:
+  profiles: dev
+  datasource:
+      url: jdbc:mysql://platform.dragon-autotest.com:3306/autotest_case
+      username: *
+      password: *

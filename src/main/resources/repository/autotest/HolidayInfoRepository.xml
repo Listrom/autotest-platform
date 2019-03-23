@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dragon.platform.autotest.repository.HolidayInfoRepository">
+
+    <resultMap id="BaseResultMap" type="com.dragon.platform.autotest.entity.HolidayInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="month_name" property="monthName" jdbcType="VARCHAR"/>
+        <result column="day_name" property="dayName" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="day" property="day" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`,`month_name`,`day_name`,`type`,`description`,`day`
+    </sql>
+
+    <select id="findByMonth" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `s_holiday_info`
+        where month_name = #{monthName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findHolidayListByMonth" resultType="java.lang.String">
+        select `day_name`
+        from  `s_holiday_info`
+        where month_name = #{monthName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findHolidayListByDate" resultType="java.lang.String">
+        select `day_name`
+        from  `s_holiday_info`
+        where `day` >= #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP} >= `day`
+    </select>
+
+    <select id="findHolidayByDate" resultType="java.util.HashMap">
+        select CONCAT(year(`day`),'-',description) as holiday from s_holiday_info
+        where `day` >= #{beginDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP} >= `day`
+        and LENGTH(description) > 0
+        LIMIT 1
+    </select>
+
+    <select id="findDateByHoliday" resultType="java.util.HashMap">
+        select CONCAT(year(`day`),'-',description) as holiday,
+        MIN(`day`) as `begin`,MAX(`day`) as `end` from s_holiday_info
+        where year(`day`) = #{year,jdbcType=VARCHAR} and description = #{holiday,jdbcType=VARCHAR}
+        LIMIT 1
+    </select>
+
+    <select id="findNearFutureHoliday" resultType="java.lang.String">
+        select distinct CONCAT(year(`day`),'-',description) as holiday from s_holiday_info
+        where `day` >= CURRENT_DATE()
+        and LENGTH(description) > 0
+        LIMIT 10
+    </select>
+
+</mapper>
